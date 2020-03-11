@@ -72,7 +72,7 @@ def execute(ticker):
         input = remove_bil(input)
         input = remove_tril(input)
         input = remove_mil(input)
-        input = round(float(input), 2)
+        input = round(float(input), 3)
         return (input)
 
     def clean_table(df):
