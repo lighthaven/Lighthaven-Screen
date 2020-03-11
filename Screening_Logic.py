@@ -28,6 +28,7 @@ def execute(ticker):
             x = input.find('B')
             if (x != -1):
                 new_input = new_input[0:x]
+                new_input = float(new_input) * 1000
         return new_input
 
     def remove_mil(input):
@@ -64,13 +65,14 @@ def execute(ticker):
         return new_input
 
     def clean_string(input):
+        input = remove_dash(input)
+        input = remove_comma(input)
+        input = fix_negative(input)
         input = remove_percent(input)
         input = remove_bil(input)
         input = remove_tril(input)
         input = remove_mil(input)
-        input = remove_dash(input)
-        input = remove_comma(input)
-        input = fix_negative(input)
+        input = round(float(input), 2)
         return (input)
 
     def clean_table(df):
