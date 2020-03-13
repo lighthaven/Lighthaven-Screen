@@ -52,27 +52,21 @@ def execute(ticker):
                 eps_growth.append('-')
         combined.insert(2, "Revenue Growth (%)", rev_growth, True)
         combined.insert(4, "EPS Growth (%)", eps_growth, True)
-        combined['Revenue'] = combined['Revenue'].astype(float)/1000000
-        combined['Long-term debt'] = combined['Long-term debt'].astype(float) / 1000000
-        combined['Cash and short-term investments'] = combined['Cash and short-term investments'].astype(float) / 1000000
 
 
 
 
         fcf = get_jsonparsed_data(cash_flow_url)['financials']
         pd_fcf = pd.DataFrame.from_dict(fcf)[['date', 'Free Cash Flow']]
-        pd_fcf['Free Cash Flow'] = pd_fcf['Free Cash Flow'].astype(float) / 1000000
         combined_annual = combined.merge(pd_fcf, left_on = 'date', right_on = 'date').transpose()
         combined_annual = combined_annual.iloc[:,0:5]
         combined_annual = combined_annual[combined_annual.columns[::-1]]
 
 
 
-
         # # Quarterly Financials Table
         q_financials = get_jsonparsed_data(q_financials_url)['financials']
         pd_quarterly = pd.DataFrame.from_dict(q_financials)[['date', 'Revenue', 'EPS Diluted']]
-        pd_quarterly['Revenue'] = pd_quarterly['Revenue'].astype(float) / 1000000
         revenue_growth = []
         revs = pd_quarterly['Revenue']
         q_eps_growth = []
@@ -179,29 +173,41 @@ def execute(ticker):
 
         # Fast_Grower Screen
         def fast_rev(df):
-            if (float(df.iloc[2, -1]) >= 14.5 and float(df.iloc[2, -2]) >= 14.5 and float(df.iloc[2, -3]) >= 14.5):
-                return 'True'
-            else:
+            try:
+                if (float(df.iloc[2, -1]) >= 14.5 and float(df.iloc[2, -2]) >= 14.5 and float(df.iloc[2, -3]) >= 14.5):
+                    return 'True'
+                else:
+                    return 'False'
+            except:
                 return 'False'
 
         def fast_eps(df):
-            if (float(df.iloc[4, -1]) >= 14.5 and float(df.iloc[4, -2]) >= 14.5 and float(df.iloc[4, -3]) >= 14.5):
-                return 'True'
-            else:
+            try:
+                if (float(df.iloc[4, -1]) >= 14.5 and float(df.iloc[4, -2]) >= 14.5 and float(df.iloc[4, -3]) >= 14.5):
+                    return 'True'
+                else:
+                    return 'False'
+            except:
                 return 'False'
 
         def fast_debt_cash(df):
-            cash_securities = float(df.iloc[6, -1])
-            debt = float(df.iloc[5, -1])
-            if (debt / cash_securities <= 2):
-                return 'True'
-            else:
+            try:
+                cash_securities = float(df.iloc[6, -1])
+                debt = float(df.iloc[5, -1])
+                if (debt / cash_securities <= 2):
+                    return 'True'
+                else:
+                    return 'False'
+            except:
                 return 'False'
 
         def fast_fcf(df):
-            if (float(df.iloc[7, -1]) > 0 and float(df.iloc[7, -2]) > 0 and float(df.iloc[7, -3]) > 0):
-                return 'True'
-            else:
+            try:
+                if (float(df.iloc[7, -1]) > 0 and float(df.iloc[7, -2]) > 0 and float(df.iloc[7, -3]) > 0):
+                    return 'True'
+                else:
+                    return 'False'
+            except:
                 return 'False'
 
         def update_fast_grower(df):
@@ -213,21 +219,30 @@ def execute(ticker):
 
         # Stalwart Screen
         def stalwart_rev(df):
-            if (float(df.iloc[2, -1]) >= 9.5 and float(df.iloc[2, -2]) >= 9.5 and float(df.iloc[2, -3]) >= 9.5):
-                return 'True'
-            else:
+            try:
+                if (float(df.iloc[2, -1]) >= 9.5 and float(df.iloc[2, -2]) >= 9.5 and float(df.iloc[2, -3]) >= 9.5):
+                    return 'True'
+                else:
+                    return 'False'
+            except:
                 return 'False'
 
         def stalwart_eps(df):
-            if (float(df.iloc[4, -1]) >= 9.5 and float(df.iloc[4, -2]) >= 9.5 and float(df.iloc[4, -3]) >= 9.5):
-                return 'True'
-            else:
+            try:
+                if (float(df.iloc[4, -1]) >= 9.5 and float(df.iloc[4, -2]) >= 9.5 and float(df.iloc[4, -3]) >= 9.5):
+                    return 'True'
+                else:
+                    return 'False'
+            except:
                 return 'False'
 
         def stalwart_market_cap(df):
-            if (float(df.iloc[2, 0]) >= 100):
-                return 'True'
-            else:
+            try:
+                if (float(df.iloc[2, 0]) >= 100):
+                    return 'True'
+                else:
+                    return 'False'
+            except:
                 return 'False'
 
         def update_stalwart(df):
@@ -238,9 +253,12 @@ def execute(ticker):
 
         # Surfer Screen
         def surfer_rev(df):
-            if (float(df.iloc[2, -1]) >= 34.5 and float(df.iloc[2, -2]) >= 34.5 and float(df.iloc[2, -3]) >= 34.5):
-                return 'True'
-            else:
+            try:
+                if (float(df.iloc[2, -1]) >= 34.5 and float(df.iloc[2, -2]) >= 34.5 and float(df.iloc[2, -3]) >= 34.5):
+                    return 'True'
+                else:
+                    return 'False'
+            except:
                 return 'False'
 
         def update_surfer(df):
@@ -249,29 +267,41 @@ def execute(ticker):
 
         # Dead Walking Screen
         def dead_eps(df):
-            if (float(df.iloc[4, -1]) < 0 and float(df.iloc[4, -2]) < 0 and float(df.iloc[4, -3]) < 0 and float(df.iloc[4, -4]) < 0):
-                return 'True'
-            else:
+            try:
+                if (float(df.iloc[4, -1]) < 0 and float(df.iloc[4, -2]) < 0 and float(df.iloc[4, -3]) < 0 and float(df.iloc[4, -4]) < 0):
+                    return 'True'
+                else:
+                    return 'False'
+            except:
                 return 'False'
 
         def dead_rev(df):
-            if (float(df.iloc[2, -1]) < 0 and float(df.iloc[2, -2]) < 0 and float(df.iloc[2, -3]) < 0 and float(df.iloc[2, -4]) < 0):
-                return 'True'
-            else:
+            try:
+                if (float(df.iloc[2, -1]) < 0 and float(df.iloc[2, -2]) < 0 and float(df.iloc[2, -3]) < 0 and float(df.iloc[2, -4]) < 0):
+                    return 'True'
+                else:
+                    return 'False'
+            except:
                 return 'False'
 
         def dead_debt_cash(df):
-            cash_securities = float(df.iloc[6, -1])
-            debt = float(df.iloc[5, -1])
-            if (debt / cash_securities >= 2):
-                return 'True'
-            else:
+            try:
+                cash_securities = float(df.iloc[6, -1])
+                debt = float(df.iloc[5, -1])
+                if (debt / cash_securities >= 2):
+                    return 'True'
+                else:
+                    return 'False'
+            except:
                 return 'False'
 
         def dead_fcf(df):
-            if (float(df.iloc[7, -1]) < 0):
-                return 'True'
-            else:
+            try:
+                if (float(df.iloc[7, -1]) < 0):
+                    return 'True'
+                else:
+                    return 'False'
+            except:
                 return 'False'
 
         def update_dead(df):
@@ -283,21 +313,30 @@ def execute(ticker):
 
         # Fad Screen
         def fad_rev(df):
-            if (float(df.iloc[2, -1]) >= 39.5 and float(df.iloc[2, -2]) >= 39.5 and float(df.iloc[2, -3]) >= 39.5):
-                return 'True'
-            else:
+            try:
+                if (float(df.iloc[2, -1]) >= 39.5 and float(df.iloc[2, -2]) >= 39.5 and float(df.iloc[2, -3]) >= 39.5):
+                    return 'True'
+                else:
+                    return 'False'
+            except:
                 return 'False'
 
         def fad_eps(df):
-            if (float(df.iloc[3, 1]) > 0):
-                return 'True'
-            else:
+            try:
+                if (float(df.iloc[3, 1]) > 0):
+                    return 'True'
+                else:
+                    return 'False'
+            except:
                 return 'False'
 
         def fad_eps_decline(df):
-            if (float(df.iloc[4, -1]) < 0):
-                return 'True'
-            else:
+            try:
+                if (float(df.iloc[4, -1]) < 0):
+                    return 'True'
+                else:
+                    return 'False'
+            except:
                 return 'False'
 
         def update_fad(df):
@@ -308,9 +347,12 @@ def execute(ticker):
 
         # Hot Story Screen
         def hot_pe(df):
-            if (float(df.iloc[3, 0]) > 30):
-                return 'True'
-            else:
+            try:
+                if (float(df.iloc[3, 0]) > 30):
+                    return 'True'
+                else:
+                    return 'False'
+            except:
                 return 'False'
 
         def update_hot(df):
@@ -341,18 +383,22 @@ def execute(ticker):
         s7 = fundamental_df
         s7 = s7.reset_index()
 
+
+        combined_annual.iloc[1] = combined_annual.iloc[1].astype(float) / 1000000
+        combined_annual.iloc[5] = combined_annual.iloc[5].astype(float) / 1000000
+        combined_annual.iloc[6] = combined_annual.iloc[6].astype(float) / 1000000
+        combined_annual.iloc[7] = combined_annual.iloc[7].astype(float) / 1000000
+
+
         s8 = combined_annual.transpose().set_index('date').transpose()
         s8 = s8.reset_index()
         s8.rename(columns={'index': 'Metric'}, inplace=True)
 
-
-
+        #cleaning combined_quarterly
+        combined_quarterly.iloc[1] = combined_quarterly.iloc[1].astype(float) / 1000000
         s9 = combined_quarterly.transpose().set_index('date').transpose()
         s9 = s9.reset_index()
         s9.rename(columns={'index':'Metric'}, inplace=True)
-
-
-
 
         final_output.append(s1)
         final_output.append(s2)
@@ -365,4 +411,4 @@ def execute(ticker):
         final_output.append(s9)
         return final_output
     except:
-        return('incorrect calculations')
+        return ('There was an error somewhere above')
