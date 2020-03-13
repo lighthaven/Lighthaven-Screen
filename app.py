@@ -60,7 +60,7 @@ def update_page(n_clicks, ticker):
     ))
 
     grid.add_element(col=1, row=1, width=12, height=1, element=html.Div(
-        style={"background-color": "blue", "height": "100%", "width": "100%"}
+        style={"background-color": "lightskyblue", "height": "100%", "width": "100%"}
     ))
 
     # Stock Chart
