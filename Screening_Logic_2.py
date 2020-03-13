@@ -366,4 +366,3 @@ def execute(ticker):
         return final_output
     except:
         return('incorrect calculations')
-execute('aapl')
