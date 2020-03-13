@@ -11,7 +11,7 @@ from yahoo_finance import Share
 import plotly.graph_objects as go
 import requests
 import pandas as pd
-from Screening_Logic_updated import execute
+from Screening_Logic_2 import execute
 import base64
 
 app = Dash()
@@ -60,7 +60,7 @@ def update_page(n_clicks, ticker):
     ))
 
     grid.add_element(col=1, row=1, width=12, height=1, element=html.Div(
-        style={"background-color": "lightskyblue", "height": "100%", "width": "100%"}
+        style={"background-color": "blue", "height": "100%", "width": "100%"}
     ))
 
     # Stock Chart
