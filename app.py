@@ -11,7 +11,7 @@ from yahoo_finance import Share
 import plotly.graph_objects as go
 import requests
 import pandas as pd
-from Screening_Logic_updated import execute
+from Screening_Logic import execute
 import base64
 
 app = Dash()
