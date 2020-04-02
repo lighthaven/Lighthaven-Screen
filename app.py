@@ -7,12 +7,9 @@ from dash.dependencies import Input, Output, State
 import datetime
 from dateutil.relativedelta import relativedelta
 import yfinance as yf
-from yahoo_finance import Share
 import plotly.graph_objects as go
 import requests
-import pandas as pd
 from Screening_Logic_2 import execute
-import base64
 
 app = Dash()
 external_stylesheets = ['https://codepen.io/rmarren1/pen/mLqGRg.css']
