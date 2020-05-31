@@ -1,6 +1,8 @@
 import pandas as pd
 
 def execute(ticker):
+    api_key = 'fb2940c3072813cfac62616b8bd05b4d'
+
     try:
         try:
             # For Python 3.0 and later
@@ -16,11 +18,11 @@ def execute(ticker):
             data = response.read().decode("utf-8")
             return json.loads(data)
 
-        general = ("https://financialmodelingprep.com/api/v3/company/profile/" + ticker)
-        a_financials_url = ("https://financialmodelingprep.com/api/v3/financials/income-statement/" + ticker)
-        q_financials_url = ("https://financialmodelingprep.com/api/v3/financials/income-statement/"+ ticker +"?period=quarter")
-        balance_sheet_url = "https://financialmodelingprep.com/api/v3/financials/balance-sheet-statement/" + ticker
-        cash_flow_url = "https://financialmodelingprep.com/api/v3/financials/cash-flow-statement/" + ticker
+        general = ("https://financialmodelingprep.com/api/v3/profile/" + ticker + '?apikey=' + api_key)
+        a_financials_url = ('https://financialmodelingprep.com/api/v3/income-statement/' + ticker + '?apikey=' + api_key)
+        q_financials_url = ('https://financialmodelingprep.com/api/v3/income-statement/' + ticker + '?period=quarter&apikey=' + api_key)
+        balance_sheet_url = 'https://financialmodelingprep.com/api/v3/balance-sheet-statement/' + ticker+ '?period=quarter&apikey=' + api_key
+        cash_flow_url = "https://financialmodelingprep.com/api/v3/cash-flow-statement/" + ticker + "?apikey=" + api_key
 
 
         #Anual Financials Table
@@ -33,7 +35,6 @@ def execute(ticker):
 
         balance_sheet = get_jsonparsed_data(balance_sheet_url)['financials']
         pd_balance = pd.DataFrame.from_dict(balance_sheet)[['date','Long-term debt', 'Cash and short-term investments']]
-        #print(pd_balance)
 
         combined = pd_annual.merge(pd_balance, left_on='date', right_on = 'date')
 
