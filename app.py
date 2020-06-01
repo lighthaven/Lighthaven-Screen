@@ -9,7 +9,7 @@ from dateutil.relativedelta import relativedelta
 import yfinance as yf
 import plotly.graph_objects as go
 import requests
-from Screening_Logic import execute
+from Screening_Logic_2 import execute
 
 app = Dash()
 external_stylesheets = ['https://codepen.io/rmarren1/pen/mLqGRg.css']
