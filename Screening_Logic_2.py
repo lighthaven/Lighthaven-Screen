@@ -1,6 +1,9 @@
 import pandas as pd
 
 def execute(ticker):
+    
+    APIKEY = "fb2940c3072813cfac62616b8bd05b4d"
+
     try:
         try:
             # For Python 3.0 and later
@@ -16,11 +19,11 @@ def execute(ticker):
             data = response.read().decode("utf-8")
             return json.loads(data)
 
-        general = ("https://financialmodelingprep.com/api/v3/company/profile/" + ticker)
-        a_financials_url = ("https://financialmodelingprep.com/api/v3/financials/income-statement/" + ticker)
-        q_financials_url = ("https://financialmodelingprep.com/api/v3/financials/income-statement/"+ ticker +"?period=quarter")
-        balance_sheet_url = "https://financialmodelingprep.com/api/v3/financials/balance-sheet-statement/" + ticker
-        cash_flow_url = "https://financialmodelingprep.com/api/v3/financials/cash-flow-statement/" + ticker
+        general = ("https://financialmodelingprep.com/api/v3/company/profile/" + ticker + '?apikey=' + APIKEY)
+        a_financials_url = ("https://financialmodelingprep.com/api/v3/financials/income-statement/" + ticker + '?apikey=' + APIKEY)
+        q_financials_url = ("https://financialmodelingprep.com/api/v3/financials/income-statement/"+ ticker +"?period=quarter" + '&apikey=' + APIKEY)
+        balance_sheet_url = "https://financialmodelingprep.com/api/v3/financials/balance-sheet-statement/" + ticker + '?apikey=' + APIKEY
+        cash_flow_url = "https://financialmodelingprep.com/api/v3/financials/cash-flow-statement/" + ticker + '?apikey=' + APIKEY
 
 
         #Anual Financials Table
