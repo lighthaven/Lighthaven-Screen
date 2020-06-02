@@ -21,6 +21,7 @@ def execute(ticker):
         general = ("https://financialmodelingprep.com/api/v3/company/profile/" + ticker + '?apikey=' + APIKEY)
         a_financials_url = ("https://financialmodelingprep.com/api/v3/financials/income-statement/" + ticker + '?apikey=' + APIKEY)
         q_financials_url = ("https://financialmodelingprep.com/api/v3/financials/income-statement/"+ ticker +"?period=quarter" + '&apikey=' + APIKEY)
+        q_balance_sheet_url = ('https://financialmodelingprep.com/api/v3/financials/balance-sheet-statement/' + ticker + '?period=quarter&apikey=' + APIKEY)
         balance_sheet_url = "https://financialmodelingprep.com/api/v3/financials/balance-sheet-statement/" + ticker + '?apikey=' + APIKEY
         cash_flow_url = "https://financialmodelingprep.com/api/v3/financials/cash-flow-statement/" + ticker + '?apikey=' + APIKEY
 
@@ -35,8 +36,6 @@ def execute(ticker):
 
         balance_sheet = get_jsonparsed_data(balance_sheet_url)['financials']
         pd_balance = pd.DataFrame.from_dict(balance_sheet)[['date','Long-term debt', 'Cash and short-term investments']]
-        #print(pd_balance)
-
         combined = pd_annual.merge(pd_balance, left_on='date', right_on = 'date')
 
         rev = combined['Revenue']
@@ -64,8 +63,10 @@ def execute(ticker):
         combined_annual = combined_annual.iloc[:,0:5]
         combined_annual = combined_annual[combined_annual.columns[::-1]]
 
-
-
+        # Most recent Debt/Cash Numbers for DCM screen
+        q_balance_sheet = get_jsonparsed_data(q_balance_sheet_url)['financials']
+        recent_balance_sheet = pd.DataFrame.from_dict(q_balance_sheet)[['Long-term debt', 'Cash and short-term investments']].iloc[0]
+        
         # # Quarterly Financials Table
         q_financials = get_jsonparsed_data(q_financials_url)['financials']
         pd_quarterly = pd.DataFrame.from_dict(q_financials)[['date', 'Revenue', 'EPS Diluted']]
@@ -288,8 +289,8 @@ def execute(ticker):
 
         def dead_debt_cash(df):
             try:
-                cash_securities = float(df.iloc[6, -1])
-                debt = float(df.iloc[5, -1])
+                cash_securities = float(df['Cash and short-term investments'])
+                debt = float(df['Long-term debt'])
                 if (debt / cash_securities >= 2):
                     return 'True'
                 else:
@@ -309,7 +310,7 @@ def execute(ticker):
         def update_dead(df):
             df.iloc[0, 0] = dead_eps(combined_quarterly)
             df.iloc[1, 0] = dead_rev(combined_quarterly)
-            df.iloc[2, 0] = dead_debt_cash(combined_annual)
+            df.iloc[2, 0] = dead_debt_cash(recent_balance_sheet)
             df.iloc[3, 0] = dead_fcf(combined_annual)
             return df
 
