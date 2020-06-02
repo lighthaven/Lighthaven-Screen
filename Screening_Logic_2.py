@@ -76,7 +76,7 @@ def execute(ticker):
         for i in range(len(revs)):
             try:
                 x1 = (((float(revs[i])-float(revs[i+4]))/float(revs[i+4]))*100)
-                x2 = (((float(revs[i]) - float(revs[i + 4])) / float(revs[i + 4]))*100)
+                x2 = (((float(q_eps[i]) - float(q_eps[i + 4])) / float(q_eps[i + 4]))*100)
                 revenue_growth.append(round(x1,2))
                 q_eps_growth.append(round(x2,2))
             except:
