@@ -2,7 +2,7 @@ import pandas as pd
 
 def execute(ticker):
 
-    APIKEY = "fb2940c3072813cfac62616b8bd05b4d"
+    APIKEY = "8b2bf9e0d0fefa73a0b0c98b55bf82b3"
     try:
         try:
             # For Python 3.0 and later
